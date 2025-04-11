@@ -291,6 +291,7 @@
       z-index: 1;
       color: white;
       max-width: 600px;
+      padding: 0 20px;
     }
 
     .hero h1 {
@@ -727,6 +728,10 @@
 
       .hero h1 {
         font-size: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
       }
 
       .categories-grid {
@@ -1309,28 +1314,31 @@
             
             <div className="footer-bottom">
               <p>&copy; 2024 Deleget. All rights reserved.</p>
-                        <p>Designed with ❤️ by Deleget Team</p>
+              <p>Designed with ❤️ by Deleget Team</p>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    // Main App Component
+    function App() {
+      return (
+        <div>
+          <Navbar />
+          <Hero />
+          <AdSlider />
+          <FoodCategories />
+          <PopularRestaurants />
+          <Footer />
+          <AuthModal />
         </div>
-      </div>
-    </footer>
-  );
-}
+      );
+    }
 
-// Main App Component
-function App() {
-  return (
-    <div>
-      <Navbar />
-      <Hero />
-      <AdSlider />
-      <FoodCategories />
-      <PopularRestaurants />
-      <Footer />
-      <AuthModal />
-    </div>
-  );
-}
-
-// Render the app
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
