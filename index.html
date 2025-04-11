@@ -63,6 +63,69 @@
       transform: translateY(-2px);
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: var(--white);
+      padding: 30px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--gray);
+    }
+
+    .modal-title {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--secondary);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .switch-mode {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--gray);
+    }
+
     /* Navbar Styles */
     .navbar {
       background-color: var(--white);
@@ -82,11 +145,13 @@
 
     .logo img {
       height: 40px;
+      width: auto;
+      max-width: 150px;
     }
 
     .nav-links {
       display: flex;
-      gap: 25px;
+      gap: 15px;
       align-items: center;
     }
 
@@ -96,6 +161,7 @@
       font-weight: 500;
       transition: color 0.3s;
       position: relative;
+      white-space: nowrap;
     }
 
     .nav-links a:hover {
@@ -116,8 +182,20 @@
       background-color: var(--primary);
     }
 
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+      margin-left: 10px;
+    }
+
+    .auth-buttons .btn {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+    }
+
     .cart-icon {
       position: relative;
+      margin-left: 10px;
     }
 
     .cart-count {
@@ -141,6 +219,8 @@
       font-size: 24px;
       cursor: pointer;
       color: var(--secondary);
+      background: none;
+      border: none;
     }
 
     /* Mobile Menu */
@@ -185,6 +265,17 @@
 
     .mobile-menu-links a:last-child {
       border-bottom: none;
+    }
+
+    .mobile-auth-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .mobile-auth-buttons .btn {
+      width: 100%;
+      text-align: center;
     }
 
     .overlay {
@@ -601,10 +692,20 @@
 
       .categories-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 15px;
       }
 
       .restaurants-grid {
         grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        padding: 20px;
+        margin: 0 15px;
+      }
+
+      .logo img {
+        height: 35px;
       }
     }
   </style>
@@ -627,6 +728,8 @@
     function Navbar() {
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
       const [activeLink, setActiveLink] = useState('home');
+      const [showAuthModal, setShowAuthModal] = useState(false);
+      const [authMode, setAuthMode] = useState('login');
 
       const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
@@ -636,13 +739,23 @@
         setMobileMenuOpen(false);
       };
 
+      const openAuthModal = (mode) => {
+        setAuthMode(mode);
+        setShowAuthModal(true);
+        closeMobileMenu();
+      };
+
+      const closeAuthModal = () => {
+        setShowAuthModal(false);
+      };
+
       return (
         <>
           <header className="navbar">
             <div className="container nav-container">
               <div className="logo">
                 <a href="#">
-                  <img src="deleget11.png" alt="Deleget Logo" />
+                  <img src="https://via.placeholder.com/150x40?text=Deleget" alt="Deleget Logo" />
                 </a>
               </div>
               
@@ -668,15 +781,28 @@
                 >
                   Restaurants
                 </a>
-                <a 
-                  href="#" 
-                  onClick={() => {
-                    document.getElementById('auth-modal').style.display = 'flex';
-                    setActiveLink('');
-                  }}
-                >
-                  Login
-                </a>
+                <div className="auth-buttons">
+                  <button 
+                    className="btn" 
+                    onClick={() => openAuthModal('login')}
+                    style={{padding: '8px 15px', fontSize: '0.9rem'}}
+                  >
+                    Login
+                  </button>
+                  <button 
+                    className="btn" 
+                    onClick={() => openAuthModal('signup')}
+                    style={{
+                      padding: '8px 15px', 
+                      fontSize: '0.9rem',
+                      background: 'transparent',
+                      color: 'var(--primary)',
+                      border: '1px solid var(--primary)'
+                    }}
+                  >
+                    Sign Up
+                  </button>
+                </div>
                 <a href="#" className="cart-icon">
                   <i className="fas fa-shopping-cart"></i>
                   <span className="cart-count">3</span>
@@ -696,7 +822,7 @@
           <div className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}>
             <div className="mobile-menu-header">
               <div className="logo">
-                <img src="deleget11.png" alt="Deleget Logo" width="120" />
+                <img src="https://via.placeholder.com/120x30?text=Deleget" alt="Deleget Logo" />
               </div>
               <button onClick={closeMobileMenu}>
                 <i className="fas fa-times"></i>
@@ -733,11 +859,10 @@
               <a 
                 href="#" 
                 onClick={() => {
-                  closeMobileMenu();
-                  document.getElementById('auth-modal').style.display = 'flex';
+                  openAuthModal('login');
                 }}
               >
-                Login
+                My Account
               </a>
               <a 
                 href="#" 
@@ -745,6 +870,27 @@
               >
                 <i className="fas fa-shopping-cart"></i> Cart (3)
               </a>
+              <div className="mobile-auth-buttons">
+                <button 
+                  className="btn" 
+                  onClick={() => openAuthModal('login')}
+                  style={{flex: 1}}
+                >
+                  Login
+                </button>
+                <button 
+                  className="btn" 
+                  onClick={() => openAuthModal('signup')}
+                  style={{
+                    flex: 1,
+                    background: 'transparent',
+                    color: 'var(--primary)',
+                    border: '1px solid var(--primary)'
+                  }}
+                >
+                  Sign Up
+                </button>
+              </div>
             </div>
           </div>
           
@@ -753,6 +899,15 @@
             className={`overlay ${mobileMenuOpen ? 'active' : ''}`} 
             onClick={closeMobileMenu}
           ></div>
+          
+          {/* Auth Modal */}
+          {showAuthModal && (
+            <AuthModal 
+              mode={authMode} 
+              onClose={closeAuthModal} 
+              onSwitchMode={(mode) => setAuthMode(mode)}
+            />
+          )}
         </>
       );
     }
@@ -761,7 +916,7 @@
     function Hero() {
       return (
         <section id="home" className="hero">
-          <img className="hero-image" src="blackground3.jpg" alt="Delicious food" />
+          <img className="hero-image" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Delicious food" />
           <div className="container hero-content">
             <h1>Find Your Perfect Meal <span style={{color: 'var(--primary)'}}>....</span>!</h1>
             <p>Discover the best restaurants and enjoy delicious food delivered to your doorstep</p>
@@ -780,9 +935,9 @@
     function AdSlider() {
       const [currentSlide, setCurrentSlide] = useState(0);
       const ads = [
-        { id: 1, image: 'ad1.jpg', alt: 'Special Offer' },
-        { id: 2, image: 'ad2.jpg', alt: 'Weekend Discount' },
-        { id: 3, image: 'ad3.jpg', alt: 'New Restaurants' }
+        { id: 1, image: 'https://via.placeholder.com/1200x300?text=Special+Offer', alt: 'Special Offer' },
+        { id: 2, image: 'https://via.placeholder.com/1200x300?text=Weekend+Discount', alt: 'Weekend Discount' },
+        { id: 3, image: 'https://via.placeholder.com/1200x300?text=New+Restaurants', alt: 'New Restaurants' }
       ];
 
       useEffect(() => {
@@ -824,12 +979,12 @@
     // FoodCategories Component
     function FoodCategories() {
       const categories = [
-        { id: 1, name: 'Breakfast', image: 'breakfast.jpg', count: 45 },
-        { id: 2, name: 'Lunch', image: 'lunch.jpg', count: 68 },
-        { id: 3, name: 'Dinner', image: 'dinner.jpg', count: 52 },
-        { id: 4, name: 'Desserts', image: 'desserts.jpg', count: 32 },
-        { id: 5, name: 'Beverages', image: 'beverages.jpg', count: 28 },
-        { id: 6, name: 'Snacks', image: 'snacks.jpg', count: 41 }
+        { id: 1, name: 'Breakfast', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 45 },
+        { id: 2, name: 'Lunch', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 68 },
+        { id: 3, name: 'Dinner', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 52 },
+        { id: 4, name: 'Desserts', image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 32 },
+        { id: 5, name: 'Beverages', image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 28 },
+        { id: 6, name: 'Snacks', image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 41 }
       ];
 
       return (
@@ -860,7 +1015,7 @@
         { 
           id: 1, 
           name: 'Maxwell Mess', 
-          image: 'restaurant1.jpg', 
+          image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', 
           cuisine: 'North Indian, Chinese', 
           rating: 4.5, 
           time: '25-35 min', 
@@ -870,7 +1025,7 @@
         { 
           id: 2, 
           name: 'Spice Kitchen', 
-          image: 'restaurant2.jpg', 
+          image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', 
           cuisine: 'South Indian, Biryani', 
           rating: 4.2, 
           time: '20-30 min', 
@@ -880,7 +1035,7 @@
         { 
           id: 3, 
           name: 'Delicious Bites', 
-          image: 'restaurant3.jpg', 
+          image: 'https://images.unsplash.com/photo-1585518419759-7fe2e0fbf8a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', 
           cuisine: 'Fast Food, Desserts', 
           rating: 4.0, 
           time: '15-25 min', 
@@ -890,7 +1045,7 @@
         { 
           id: 4, 
           name: 'Tasty Treats', 
-          image: 'restaurant4.jpg', 
+          image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', 
           cuisine: 'Chinese, Thai', 
           rating: 4.3, 
           time: '30-40 min', 
@@ -939,8 +1094,7 @@
     }
 
     // AuthModal Component
-    function AuthModal() {
-      const [mode, setMode] = useState('login');
+    function AuthModal({ mode, onClose, onSwitchMode }) {
       const [formData, setFormData] = useState({
         name: '',
         mobile: '',
@@ -960,23 +1114,19 @@
       const handleSubmit = (e) => {
         e.preventDefault();
         alert(`${mode === 'login' ? 'Login' : 'Signup'} successful!`);
-        document.getElementById('auth-modal').style.display = 'none';
+        onClose();
       };
 
       const switchMode = () => {
-        setMode(mode === 'login' ? 'signup' : 'login');
-      };
-
-      const closeModal = () => {
-        document.getElementById('auth-modal').style.display = 'none';
+        onSwitchMode(mode === 'login' ? 'signup' : 'login');
       };
 
       return (
-        <div id="auth-modal" className="modal" style={{display: 'none'}}>
+        <div className="modal">
           <div className="modal-content">
             <span 
               className="close-btn" 
-              onClick={closeModal}
+              onClick={onClose}
             >
               &times;
             </span>
@@ -1156,7 +1306,6 @@
           <FoodCategories />
           <PopularRestaurants />
           <Footer />
-          <AuthModal />
         </div>
       );
     }
