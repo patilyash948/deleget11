@@ -40,37 +40,53 @@
       padding: 0 15px;
     }
 
-    /* Improved Navbar */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      background-color: #e76a00;
+      transform: translateY(-2px);
+    }
+
+    /* Navbar Styles */
     .navbar {
       background-color: var(--white);
       box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
       position: sticky;
       top: 0;
       z-index: 1000;
-      padding: 10px 0;
     }
 
     .nav-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 15px 0;
       position: relative;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
     .logo img {
-      height: 45px;
-      width: auto;
-      object-fit: contain;
+      height: 40px;
     }
 
     .nav-links {
       display: flex;
-      gap: 20px;
+      gap: 25px;
       align-items: center;
     }
 
@@ -80,38 +96,44 @@
       font-weight: 500;
       transition: color 0.3s;
       position: relative;
-      font-size: 15px;
     }
 
-    .auth-buttons {
-      display: flex;
-      gap: 15px;
-      align-items: center;
+    .nav-links a:hover {
+      color: var(--primary);
     }
 
-    .login-btn, .signup-btn {
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: all 0.3s;
-      cursor: pointer;
+    .nav-links a.active {
+      color: var(--primary);
     }
 
-    .login-btn {
-      color: var(--secondary);
-      background: transparent;
-      border: none;
-    }
-
-    .signup-btn {
+    .nav-links a.active:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 3px;
       background-color: var(--primary);
-      color: white;
-      border: none;
     }
 
     .cart-icon {
       position: relative;
-      margin-left: 15px;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: bold;
     }
 
     .mobile-menu-btn {
@@ -119,121 +141,68 @@
       font-size: 24px;
       cursor: pointer;
       color: var(--secondary);
-      background: none;
-      border: none;
-      padding: 5px;
     }
 
     /* Mobile Menu */
-    @media (max-width: 768px) {
-      .nav-links, .auth-buttons {
-        display: none;
-      }
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 320px;
+      height: 100vh;
+      background-color: var(--white);
+      z-index: 1001;
+      transition: all 0.3s ease;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
 
-      .mobile-menu-btn {
-        display: block;
-      }
+    .mobile-menu.active {
+      left: 0;
+    }
 
-      .mobile-menu {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 85%;
-        max-width: 320px;
-        height: 100vh;
-        background-color: var(--white);
-        z-index: 1001;
-        transition: all 0.3s ease-out;
-        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        padding-top: 70px;
-      }
+    .mobile-menu-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
 
-      .mobile-menu.active {
-        left: 0;
-      }
+    .mobile-menu-links {
+      padding: 20px;
+    }
 
-      .mobile-menu-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 85%;
-        max-width: 320px;
-        padding: 15px 20px;
-        background-color: var(--white);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #eee;
-        z-index: 1002;
-      }
+    .mobile-menu-links a {
+      display: block;
+      padding: 12px 0;
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid #eee;
+    }
 
-      .mobile-menu-logo img {
-        height: 35px;
-        width: auto;
-      }
+    .mobile-menu-links a:last-child {
+      border-bottom: none;
+    }
 
-      .mobile-menu-links {
-        padding: 20px;
-      }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
 
-      .mobile-menu-links a {
-        display: flex;
-        align-items: center;
-        padding: 12px 15px;
-        color: var(--secondary);
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: 6px;
-        margin-bottom: 8px;
-        transition: all 0.2s ease;
-      }
-
-      .mobile-auth-buttons {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .mobile-login-btn, .mobile-signup-btn {
-        width: 100%;
-        padding: 12px;
-        border-radius: 6px;
-        font-weight: 500;
-        text-align: center;
-        cursor: pointer;
-      }
-
-      .mobile-login-btn {
-        background-color: transparent;
-        color: var(--secondary);
-        border: 1px solid #ddd;
-      }
-
-      .mobile-signup-btn {
-        background-color: var(--primary);
-        color: white;
-        border: none;
-      }
-
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
     }
 
     /* Hero Section */
@@ -259,7 +228,6 @@
       z-index: 1;
       color: white;
       max-width: 600px;
-      padding: 0 20px;
     }
 
     .hero h1 {
@@ -330,6 +298,16 @@
       display: inline-block;
     }
 
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50%;
+      height: 4px;
+      background-color: var(--primary);
+    }
+
     .categories-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -347,6 +325,7 @@
 
     .category-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
     .category-image {
@@ -361,8 +340,22 @@
       transition: transform 0.5s ease;
     }
 
+    .category-card:hover .category-image img {
+      transform: scale(1.05);
+    }
+
     .category-info {
       padding: 15px;
+    }
+
+    .category-info h3 {
+      margin-bottom: 5px;
+      font-size: 1.2rem;
+    }
+
+    .category-info p {
+      color: var(--gray);
+      font-size: 0.9rem;
     }
 
     /* Popular Restaurants */
@@ -378,6 +371,18 @@
       margin-bottom: 30px;
     }
 
+    .view-all {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .view-all i {
+      margin-left: 5px;
+    }
+
     .restaurants-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -390,6 +395,12 @@
       overflow: hidden;
       box-shadow: var(--shadow);
       transition: all 0.3s ease;
+      border: 1px solid #f0f0f0;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
     .restaurant-image {
@@ -404,8 +415,60 @@
       object-fit: cover;
     }
 
+    .restaurant-badge {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: var(--accent);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
     .restaurant-info {
       padding: 15px;
+    }
+
+    .restaurant-name {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .restaurant-rating {
+      color: white;
+      background-color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .restaurant-rating i {
+      font-size: 0.7rem;
+      margin-right: 3px;
+    }
+
+    .restaurant-cuisine {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .restaurant-details {
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .restaurant-price {
+      font-weight: 600;
+      color: var(--secondary);
     }
 
     /* Footer */
@@ -422,6 +485,23 @@
       margin-bottom: 30px;
     }
 
+    .footer-col h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-col h3:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background-color: var(--primary);
+    }
+
     .footer-links {
       list-style: none;
     }
@@ -433,82 +513,97 @@
     .footer-links a {
       color: #ddd;
       text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      color: var(--white);
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: var(--primary);
     }
 
     .footer-bottom {
       text-align: center;
       padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+      color: #aaa;
     }
 
-    /* Auth Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero {
+        height: 350px;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
     }
 
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background-color: var(--white);
-      padding: 30px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 500px;
-      position: relative;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--gray);
-      background: none;
-      border: none;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    /* Responsive Adjustments */
     @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
       .hero {
         height: 300px;
         text-align: center;
       }
-      
+
+      .hero-content {
+        max-width: 100%;
+      }
+
       .hero h1 {
         font-size: 2rem;
       }
-      
+
       .categories-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+
+      .restaurants-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 576px) {
+      .hero {
+        height: 250px;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+
       .categories-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .restaurants-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -531,70 +626,68 @@
     // Navbar Component
     function Navbar() {
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      const [activeLink, setActiveLink] = useState('home');
 
       const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
-        document.body.style.overflow = mobileMenuOpen ? 'auto' : 'hidden';
       };
 
       const closeMobileMenu = () => {
         setMobileMenuOpen(false);
-        document.body.style.overflow = 'auto';
       };
-
-      useEffect(() => {
-        const handleResize = () => {
-          if (window.innerWidth > 768) {
-            closeMobileMenu();
-          }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-      }, []);
 
       return (
         <>
           <header className="navbar">
             <div className="container nav-container">
               <div className="logo">
-                <a href="#home">
+                <a href="#">
                   <img src="deleget11.png" alt="Deleget Logo" />
                 </a>
               </div>
               
               <nav className="nav-links">
-                <a href="#home">Home</a>
-                <a href="#categories">Categories</a>
-                <a href="#restaurants">Restaurants</a>
-              </nav>
-
-              <div className="auth-buttons">
-                <button 
-                  className="login-btn"
-                  onClick={() => document.getElementById('auth-modal').style.display = 'flex'}
+                <a 
+                  href="#home" 
+                  className={activeLink === 'home' ? 'active' : ''}
+                  onClick={() => setActiveLink('home')}
                 >
-                  Login
-                </button>
-                <button 
-                  className="signup-btn"
+                  Home
+                </a>
+                <a 
+                  href="#categories" 
+                  className={activeLink === 'categories' ? 'active' : ''}
+                  onClick={() => setActiveLink('categories')}
+                >
+                  Categories
+                </a>
+                <a 
+                  href="#restaurants" 
+                  className={activeLink === 'restaurants' ? 'active' : ''}
+                  onClick={() => setActiveLink('restaurants')}
+                >
+                  Restaurants
+                </a>
+                <a 
+                  href="#" 
                   onClick={() => {
                     document.getElementById('auth-modal').style.display = 'flex';
-                    document.getElementById('auth-mode').textContent = 'signup';
+                    setActiveLink('');
                   }}
                 >
-                  Sign Up
-                </button>
+                  Login
+                </a>
                 <a href="#" className="cart-icon">
                   <i className="fas fa-shopping-cart"></i>
+                  <span className="cart-count">3</span>
                 </a>
-              </div>
+              </nav>
               
               <button 
                 className="mobile-menu-btn" 
                 onClick={toggleMobileMenu}
               >
-                <i className={mobileMenuOpen ? "fas fa-times" : "fas fa-bars"}></i>
+                <i className="fas fa-bars"></i>
               </button>
             </div>
           </header>
@@ -602,49 +695,55 @@
           {/* Mobile Menu */}
           <div className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}>
             <div className="mobile-menu-header">
-              <div className="mobile-menu-logo">
-                <img src="deleget11.png" alt="Deleget Logo" />
+              <div className="logo">
+                <img src="deleget11.png" alt="Deleget Logo" width="120" />
               </div>
-              <button 
-                className="mobile-menu-close" 
-                onClick={closeMobileMenu}
-              >
+              <button onClick={closeMobileMenu}>
                 <i className="fas fa-times"></i>
               </button>
             </div>
             <div className="mobile-menu-links">
-              <a href="#home" onClick={closeMobileMenu}>
-                <i className="fas fa-home"></i> Home
+              <a 
+                href="#home" 
+                onClick={() => {
+                  closeMobileMenu();
+                  setActiveLink('home');
+                }}
+              >
+                Home
               </a>
-              <a href="#categories" onClick={closeMobileMenu}>
-                <i className="fas fa-list"></i> Categories
+              <a 
+                href="#categories" 
+                onClick={() => {
+                  closeMobileMenu();
+                  setActiveLink('categories');
+                }}
+              >
+                Categories
               </a>
-              <a href="#restaurants" onClick={closeMobileMenu}>
-                <i className="fas fa-utensils"></i> Restaurants
+              <a 
+                href="#restaurants" 
+                onClick={() => {
+                  closeMobileMenu();
+                  setActiveLink('restaurants');
+                }}
+              >
+                Restaurants
               </a>
-            </div>
-            <div className="mobile-auth-buttons">
-              <button 
-                className="mobile-login-btn"
+              <a 
+                href="#" 
                 onClick={() => {
                   closeMobileMenu();
                   document.getElementById('auth-modal').style.display = 'flex';
                 }}
               >
                 Login
-              </button>
-              <button 
-                className="mobile-signup-btn"
-                onClick={() => {
-                  closeMobileMenu();
-                  document.getElementById('auth-modal').style.display = 'flex';
-                  document.getElementById('auth-mode').textContent = 'signup';
-                }}
+              </a>
+              <a 
+                href="#" 
+                onClick={closeMobileMenu}
               >
-                Sign Up
-              </button>
-              <a href="#" className="mobile-cart-link" onClick={closeMobileMenu}>
-                <i className="fas fa-shopping-cart"></i> Cart
+                <i className="fas fa-shopping-cart"></i> Cart (3)
               </a>
             </div>
           </div>
@@ -727,7 +826,10 @@
       const categories = [
         { id: 1, name: 'Breakfast', image: 'breakfast.jpg', count: 45 },
         { id: 2, name: 'Lunch', image: 'lunch.jpg', count: 68 },
-        { id: 3, name: 'Dinner', image: 'dinner.jpg', count: 52 }
+        { id: 3, name: 'Dinner', image: 'dinner.jpg', count: 52 },
+        { id: 4, name: 'Desserts', image: 'desserts.jpg', count: 32 },
+        { id: 5, name: 'Beverages', image: 'beverages.jpg', count: 28 },
+        { id: 6, name: 'Snacks', image: 'snacks.jpg', count: 41 }
       ];
 
       return (
@@ -760,25 +862,72 @@
           name: 'Maxwell Mess', 
           image: 'restaurant1.jpg', 
           cuisine: 'North Indian, Chinese', 
-          rating: 4.5
+          rating: 4.5, 
+          time: '25-35 min', 
+          price: '₹200 for one',
+          badge: 'Promoted'
+        },
+        { 
+          id: 2, 
+          name: 'Spice Kitchen', 
+          image: 'restaurant2.jpg', 
+          cuisine: 'South Indian, Biryani', 
+          rating: 4.2, 
+          time: '20-30 min', 
+          price: '₹150 for one',
+          badge: 'Popular'
+        },
+        { 
+          id: 3, 
+          name: 'Delicious Bites', 
+          image: 'restaurant3.jpg', 
+          cuisine: 'Fast Food, Desserts', 
+          rating: 4.0, 
+          time: '15-25 min', 
+          price: '₹100 for one',
+          badge: ''
+        },
+        { 
+          id: 4, 
+          name: 'Tasty Treats', 
+          image: 'restaurant4.jpg', 
+          cuisine: 'Chinese, Thai', 
+          rating: 4.3, 
+          time: '30-40 min', 
+          price: '₹250 for one',
+          badge: 'New'
         }
       ];
 
       return (
         <section id="restaurants" className="restaurants">
           <div className="container">
-            <h2 className="section-title">Popular Restaurants</h2>
+            <div className="restaurants-header">
+              <h2 className="section-title">Popular Restaurants</h2>
+              <a href="#" className="view-all">
+                View All <i className="fas fa-chevron-right"></i>
+              </a>
+            </div>
             <div className="restaurants-grid">
               {restaurants.map((restaurant) => (
                 <div key={restaurant.id} className="restaurant-card">
                   <div className="restaurant-image">
                     <img src={restaurant.image} alt={restaurant.name} />
+                    {restaurant.badge && (
+                      <span className="restaurant-badge">{restaurant.badge}</span>
+                    )}
                   </div>
                   <div className="restaurant-info">
-                    <h3>{restaurant.name}</h3>
-                    <p>{restaurant.cuisine}</p>
-                    <div className="restaurant-rating">
-                      <i className="fas fa-star"></i> {restaurant.rating}
+                    <div className="restaurant-name">
+                      <span>{restaurant.name}</span>
+                      <span className="restaurant-rating">
+                        <i className="fas fa-star"></i> {restaurant.rating}
+                      </span>
+                    </div>
+                    <div className="restaurant-cuisine">{restaurant.cuisine}</div>
+                    <div className="restaurant-details">
+                      <span>{restaurant.time}</span>
+                      <span className="restaurant-price">{restaurant.price}</span>
                     </div>
                   </div>
                 </div>
@@ -825,14 +974,14 @@
       return (
         <div id="auth-modal" className="modal" style={{display: 'none'}}>
           <div className="modal-content">
-            <button 
+            <span 
               className="close-btn" 
               onClick={closeModal}
             >
-              <i className="fas fa-times"></i>
-            </button>
+              &times;
+            </span>
             
-            <h2>{mode === 'login' ? 'Sign In' : 'Sign Up'}</h2>
+            <h2 className="modal-title">{mode === 'login' ? 'Sign In' : 'Sign Up'}</h2>
             
             <form onSubmit={handleSubmit}>
               {mode === 'signup' && (
@@ -873,6 +1022,7 @@
                       <option value="">Select Department</option>
                       <option value="WPR">WPR</option>
                       <option value="WPP">WPP</option>
+                      <option value="Consumer Electronics">Consumer Electronics</option>
                     </select>
                   </div>
                 </>
@@ -921,7 +1071,8 @@
                       background: 'none',
                       border: 'none',
                       color: 'var(--primary)',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      textDecoration: 'underline'
                     }}
                   >
                     Sign Up
@@ -936,7 +1087,8 @@
                       background: 'none',
                       border: 'none',
                       color: 'var(--primary)',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      textDecoration: 'underline'
                     }}
                   >
                     Sign In
@@ -955,21 +1107,37 @@
         <footer className="footer">
           <div className="container">
             <div className="footer-grid">
-              <div>
+              <div className="footer-col">
                 <h3>Company</h3>
                 <ul className="footer-links">
                   <li><a href="#">About Us</a></li>
                   <li><a href="#">Careers</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Press</a></li>
                 </ul>
               </div>
-              <div>
-                <h3>Contact</h3>
+              
+              <div className="footer-col">
+                <h3>Help & Contact</h3>
                 <ul className="footer-links">
                   <li><a href="#">Help Center</a></li>
+                  <li><a href="#">Contact Us</a></li>
                   <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Terms of Service</a></li>
                 </ul>
               </div>
+              
+              <div className="footer-col">
+                <h3>Follow Us</h3>
+                <div className="social-links">
+                  <a href="#"><i className="fab fa-facebook-f"></i></a>
+                  <a href="#"><i className="fab fa-twitter"></i></a>
+                  <a href="#"><i className="fab fa-instagram"></i></a>
+                  <a href="#"><i className="fab fa-linkedin-in"></i></a>
+                </div>
+              </div>
             </div>
+            
             <div className="footer-bottom">
               <p>&copy; 2024 Deleget. All rights reserved.</p>
             </div>
@@ -989,7 +1157,6 @@
           <PopularRestaurants />
           <Footer />
           <AuthModal />
-          <div id="auth-mode" style={{display: 'none'}}>login</div>
         </div>
       );
     }
