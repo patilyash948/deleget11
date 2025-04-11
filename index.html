@@ -1308,34 +1308,29 @@
             </div>
             
             <div className="footer-bottom">
-              <p>&copy; 2024 Deleget. All rights reserved.</
-            <p className="copyright">&copy; 2024 Deleget. All rights reserved.</p>
-          </div>
-        </footer>
-      );
-    }
-
-    // Main App Component
-    function App() {
-      return (
-        <div>
-          <Navbar />
-          <Hero />
-          <Services />
-          <BookingOptions />
-          <MessList />
-          <Footer />
-          <AuthModal />
-          
-          {/* Hidden element to track auth mode */}
-          <div id="auth-mode" style={{display: 'none'}}>login</div>
+              <p>&copy; 2024 Deleget. All rights reserved.</p>
+                        <p>Designed with ❤️ by Deleget Team</p>
         </div>
-      );
-    }
+      </div>
+    </footer>
+  );
+}
 
-    // Render the app
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
-</body>
-</html>
+// Main App Component
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Hero />
+      <AdSlider />
+      <FoodCategories />
+      <PopularRestaurants />
+      <Footer />
+      <AuthModal />
+    </div>
+  );
+}
+
+// Render the app
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
