@@ -77,6 +77,10 @@
       justify-content: center;
     }
 
+    .modal.active {
+      display: flex;
+    }
+
     .modal-content {
       background-color: var(--white);
       padding: 30px;
@@ -85,6 +89,7 @@
       max-width: 400px;
       position: relative;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      margin: 0 15px;
     }
 
     .close-btn {
@@ -133,20 +138,26 @@
       position: sticky;
       top: 0;
       z-index: 1000;
+      padding: 10px 0;
     }
 
     .nav-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
       position: relative;
     }
 
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
     .logo img {
-      height: 70px;
+      height: 40px;
       width: auto;
       max-width: 150px;
+      object-fit: contain;
     }
 
     .nav-links {
@@ -162,6 +173,7 @@
       transition: color 0.3s;
       position: relative;
       white-space: nowrap;
+      font-size: 0.95rem;
     }
 
     .nav-links a:hover {
@@ -193,6 +205,16 @@
       font-size: 0.9rem;
     }
 
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(252, 128, 25, 0.1);
+    }
+
     .cart-icon {
       position: relative;
       margin-left: 10px;
@@ -221,6 +243,7 @@
       color: var(--secondary);
       background: none;
       border: none;
+      padding: 5px;
     }
 
     /* Mobile Menu */
@@ -269,6 +292,7 @@
 
     .mobile-auth-buttons {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       margin-top: 20px;
     }
@@ -701,11 +725,25 @@
 
       .modal-content {
         padding: 20px;
-        margin: 0 15px;
       }
 
       .logo img {
         height: 35px;
+      }
+
+      .navbar {
+        padding: 8px 0;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .auth-buttons {
+        gap: 5px;
+      }
+      
+      .auth-buttons .btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -755,7 +793,7 @@
             <div className="container nav-container">
               <div className="logo">
                 <a href="#">
-                  <img src="deleget11.png" alt="Deleget Logo" />
+                  <img src="https://via.placeholder.com/150x40?text=Deleget" alt="Deleget Logo" />
                 </a>
               </div>
               
@@ -785,20 +823,12 @@
                   <button 
                     className="btn" 
                     onClick={() => openAuthModal('login')}
-                    style={{padding: '8px 15px', fontSize: '0.9rem'}}
                   >
                     Login
                   </button>
                   <button 
-                    className="btn" 
+                    className="btn btn-outline" 
                     onClick={() => openAuthModal('signup')}
-                    style={{
-                      padding: '8px 15px', 
-                      fontSize: '0.9rem',
-                      background: 'transparent',
-                      color: 'var(--primary)',
-                      border: '1px solid var(--primary)'
-                    }}
                   >
                     Sign Up
                   </button>
@@ -874,19 +904,12 @@
                 <button 
                   className="btn" 
                   onClick={() => openAuthModal('login')}
-                  style={{flex: 1}}
                 >
                   Login
                 </button>
                 <button 
-                  className="btn" 
+                  className="btn btn-outline" 
                   onClick={() => openAuthModal('signup')}
-                  style={{
-                    flex: 1,
-                    background: 'transparent',
-                    color: 'var(--primary)',
-                    border: '1px solid var(--primary)'
-                  }}
                 >
                   Sign Up
                 </button>
@@ -901,14 +924,173 @@
           ></div>
           
           {/* Auth Modal */}
-          {showAuthModal && (
-            <AuthModal 
-              mode={authMode} 
-              onClose={closeAuthModal} 
-              onSwitchMode={(mode) => setAuthMode(mode)}
-            />
-          )}
+          <AuthModal 
+            show={showAuthModal} 
+            mode={authMode} 
+            onClose={closeAuthModal} 
+            onSwitchMode={(mode) => setAuthMode(mode)}
+          />
         </>
+      );
+    }
+
+    // AuthModal Component
+    function AuthModal({ show, mode, onClose, onSwitchMode }) {
+      const [formData, setFormData] = useState({
+        name: '',
+        mobile: '',
+        password: '',
+        location: '',
+        department: ''
+      });
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        alert(`${mode === 'login' ? 'Login' : 'Signup'} successful!`);
+        onClose();
+      };
+
+      const switchMode = () => {
+        onSwitchMode(mode === 'login' ? 'signup' : 'login');
+      };
+
+      if (!show) return null;
+
+      return (
+        <div className="modal active">
+          <div className="modal-content">
+            <span 
+              className="close-btn" 
+              onClick={onClose}
+            >
+              &times;
+            </span>
+            
+            <h2 className="modal-title">{mode === 'login' ? 'Sign In' : 'Sign Up'}</h2>
+            
+            <form onSubmit={handleSubmit}>
+              {mode === 'signup' && (
+                <>
+                  <div className="form-group">
+                    <label>Employee Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      className="form-control"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Location</label>
+                    <input
+                      type="text"
+                      name="location"
+                      className="form-control"
+                      value={formData.location}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Department</label>
+                    <select
+                      name="department"
+                      className="form-control"
+                      value={formData.department}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select Department</option>
+                      <option value="WPR">WPR</option>
+                      <option value="WPP">WPP</option>
+                      <option value="Consumer Electronics">Consumer Electronics</option>
+                    </select>
+                  </div>
+                </>
+              )}
+              
+              <div className="form-group">
+                <label>Mobile Number</label>
+                <input
+                  type="tel"
+                  name="mobile"
+                  className="form-control"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              
+              <button 
+                type="submit"
+                className="btn"
+                style={{width: '100%'}}
+              >
+                {mode === 'login' ? 'Sign In' : 'Sign Up'}
+              </button>
+            </form>
+            
+            <div className="switch-mode">
+              {mode === 'login' ? (
+                <p>
+                  Don't have an account?{' '}
+                  <button 
+                    onClick={switchMode}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--primary)',
+                      cursor: 'pointer',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    Sign Up
+                  </button>
+                </p>
+              ) : (
+                <p>
+                  Already have an account?{' '}
+                  <button 
+                    onClick={switchMode}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--primary)',
+                      cursor: 'pointer',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    Sign In
+                  </button>
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
       );
     }
 
@@ -1090,164 +1272,6 @@
             </div>
           </div>
         </section>
-      );
-    }
-
-    // AuthModal Component
-    function AuthModal({ mode, onClose, onSwitchMode }) {
-      const [formData, setFormData] = useState({
-        name: '',
-        mobile: '',
-        password: '',
-        location: '',
-        department: ''
-      });
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }));
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        alert(`${mode === 'login' ? 'Login' : 'Signup'} successful!`);
-        onClose();
-      };
-
-      const switchMode = () => {
-        onSwitchMode(mode === 'login' ? 'signup' : 'login');
-      };
-
-      return (
-        <div className="modal">
-          <div className="modal-content">
-            <span 
-              className="close-btn" 
-              onClick={onClose}
-            >
-              &times;
-            </span>
-            
-            <h2 className="modal-title">{mode === 'login' ? 'Sign In' : 'Sign Up'}</h2>
-            
-            <form onSubmit={handleSubmit}>
-              {mode === 'signup' && (
-                <>
-                  <div className="form-group">
-                    <label>Employee Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      className="form-control"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Location</label>
-                    <input
-                      type="text"
-                      name="location"
-                      className="form-control"
-                      value={formData.location}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Department</label>
-                    <select
-                      name="department"
-                      className="form-control"
-                      value={formData.department}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Department</option>
-                      <option value="WPR">WPR</option>
-                      <option value="WPP">WPP</option>
-                      <option value="Consumer Electronics">Consumer Electronics</option>
-                    </select>
-                  </div>
-                </>
-              )}
-              
-              <div className="form-group">
-                <label>Mobile Number</label>
-                <input
-                  type="tel"
-                  name="mobile"
-                  className="form-control"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
-              <button 
-                type="submit"
-                className="btn"
-                style={{width: '100%'}}
-              >
-                {mode === 'login' ? 'Sign In' : 'Sign Up'}
-              </button>
-            </form>
-            
-            <div className="switch-mode">
-              {mode === 'login' ? (
-                <p>
-                  Don't have an account?{' '}
-                  <button 
-                    onClick={switchMode}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--primary)',
-                      cursor: 'pointer',
-                      textDecoration: 'underline'
-                    }}
-                  >
-                    Sign Up
-                  </button>
-                </p>
-              ) : (
-                <p>
-                  Already have an account?{' '}
-                  <button 
-                    onClick={switchMode}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--primary)',
-                      cursor: 'pointer',
-                      textDecoration: 'underline'
-                    }}
-                  >
-                    Sign In
-                  </button>
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
       );
     }
 
