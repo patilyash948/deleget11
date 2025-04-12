@@ -357,6 +357,52 @@
       opacity: 0.9;
     }
 
+    /* Search Section */
+    .search-section {
+      padding: 30px 0;
+      background-color: var(--white);
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: var(--light);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .search-title {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--secondary);
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-btn {
+      padding: 12px 24px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
     /* Ad Slider */
     .ad-slider {
       margin: 30px 0;
@@ -699,6 +745,14 @@
       .restaurants-grid {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       }
+
+      .search-form {
+        flex-direction: column;
+      }
+
+      .search-input, .search-btn {
+        width: 100%;
+      }
     }
 
     @media (max-width: 576px) {
@@ -809,18 +863,18 @@
                   Home
                 </a>
                 <a 
-                  href="#categories" 
-                  className={activeLink === 'categories' ? 'active' : ''}
-                  onClick={() => setActiveLink('categories')}
-                >
-                  Categories
-                </a>
-                <a 
                   href="#restaurants" 
                   className={activeLink === 'restaurants' ? 'active' : ''}
                   onClick={() => setActiveLink('restaurants')}
                 >
                   Restaurants
+                </a>
+                <a 
+                  href="#categories" 
+                  className={activeLink === 'categories' ? 'active' : ''}
+                  onClick={() => setActiveLink('categories')}
+                >
+                  Categories
                 </a>
                 <div className="auth-buttons">
                   <button 
@@ -872,15 +926,6 @@
                 Home
               </a>
               <a 
-                href="#categories" 
-                onClick={() => {
-                  closeMobileMenu();
-                  setActiveLink('categories');
-                }}
-              >
-                Categories
-              </a>
-              <a 
                 href="#restaurants" 
                 onClick={() => {
                   closeMobileMenu();
@@ -888,6 +933,15 @@
                 }}
               >
                 Restaurants
+              </a>
+              <a 
+                href="#categories" 
+                onClick={() => {
+                  closeMobileMenu();
+                  setActiveLink('categories');
+                }}
+              >
+                Categories
               </a>
               <a 
                 href="#" 
@@ -1107,10 +1161,51 @@
             <p>Discover the best restaurants and enjoy delicious food delivered to your doorstep</p>
             <button 
               className="btn" 
-              onClick={() => document.getElementById('categories').scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => document.getElementById('restaurants').scrollIntoView({ behavior: 'smooth' })}
             >
               Order Now
             </button>
+          </div>
+        </section>
+      );
+    }
+
+    // SearchSection Component
+    function SearchSection() {
+      const [searchQuery, setSearchQuery] = useState('');
+      const [location, setLocation] = useState('');
+      
+      const handleSearch = (e) => {
+        e.preventDefault();
+        // This will be connected to your database later
+        alert(`Searching for "${searchQuery}" in ${location}`);
+      };
+
+      return (
+        <section className="search-section">
+          <div className="container">
+            <div className="search-container">
+              <h3 className="search-title">Find Restaurants & Canteens</h3>
+              <form className="search-form" onSubmit={handleSearch}>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search for restaurants or food..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Enter your location..."
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <button type="submit" className="search-btn">
+                  <i className="fas fa-search"></i> Search
+                </button>
+              </form>
+            </div>
           </div>
         </section>
       );
@@ -1158,39 +1253,6 @@
             ))}
           </div>
         </div>
-      );
-    }
-
-    // FoodCategories Component
-    function FoodCategories() {
-      const categories = [
-        { id: 1, name: 'Breakfast', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 45 },
-        { id: 2, name: 'Lunch', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 68 },
-        { id: 3, name: 'Dinner', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 52 },
-        { id: 4, name: 'Desserts', image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 32 },
-        { id: 5, name: 'Beverages', image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 28 },
-        { id: 6, name: 'Snacks', image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 41 }
-      ];
-
-      return (
-        <section id="categories" className="food-categories">
-          <div className="container">
-            <h2 className="section-title">Food Categories</h2>
-            <div className="categories-grid">
-              {categories.map((category) => (
-                <div key={category.id} className="category-card">
-                  <div className="category-image">
-                    <img src={category.image} alt={category.name} />
-                  </div>
-                  <div className="category-info">
-                    <h3>{category.name}</h3>
-                    <p>{category.count} Restaurants</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
       );
     }
 
@@ -1278,6 +1340,39 @@
       );
     }
 
+    // FoodCategories Component
+    function FoodCategories() {
+      const categories = [
+        { id: 1, name: 'Breakfast', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 45 },
+        { id: 2, name: 'Lunch', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 68 },
+        { id: 3, name: 'Dinner', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 52 },
+        { id: 4, name: 'Desserts', image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 32 },
+        { id: 5, name: 'Beverages', image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 28 },
+        { id: 6, name: 'Snacks', image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', count: 41 }
+      ];
+
+      return (
+        <section id="categories" className="food-categories">
+          <div className="container">
+            <h2 className="section-title">Food Categories</h2>
+            <div className="categories-grid">
+              {categories.map((category) => (
+                <div key={category.id} className="category-card">
+                  <div className="category-image">
+                    <img src={category.image} alt={category.name} />
+                  </div>
+                  <div className="category-info">
+                    <h3>{category.name}</h3>
+                    <p>{category.count} Restaurants</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     // Footer Component
     function Footer() {
       return (
@@ -1329,9 +1424,10 @@
         <div>
           <Navbar />
           <Hero />
+          <SearchSection />
           <AdSlider />
-          <FoodCategories />
           <PopularRestaurants />
+          <FoodCategories />
           <Footer />
         </div>
       );
